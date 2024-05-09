@@ -25,7 +25,16 @@ const signinValidator = [
     .withMessage("Password is not empty"),
 ];
 
+const emailValidator = [
+  check("email")
+    .isEmail()
+    .withMessage("Please enter a valid email address")
+    .notEmpty()
+    .withMessage("Email is required"),
+];
+
 module.exports = {
   singupValidator,
   signinValidator,
+  emailValidator,
 };

@@ -24,6 +24,11 @@ const userSchema = mongoose.Schema(
       default: 4,
       //role: 1->Super Admin, 2->admin, 3->vendor, 4->user, 
     },
+    varificationCode: String,
+    isVarified: {
+      type: Boolean,
+      default: false,
+    },
     date: {
       type: Date,
       default: Date.now,
