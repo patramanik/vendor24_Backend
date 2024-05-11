@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../config/kyes");
+const { header } = require("express-validator");
 const generateToken = (user) => {
   const token = jwt.sign(
     {
@@ -16,5 +17,7 @@ const generateToken = (user) => {
 
   return token;
 };
+
+
 
 module.exports = generateToken;

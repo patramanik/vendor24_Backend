@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { forgotPasswordCode } = require("../controller/auth");
 
 //create user Schema
 
@@ -25,6 +26,7 @@ const userSchema = mongoose.Schema(
       //role: 1->Super Admin, 2->admin, 3->vendor, 4->user, 
     },
     varificationCode: String,
+    forgotPasswordCode: String,
     isVarified: {
       type: Boolean,
       default: false,
