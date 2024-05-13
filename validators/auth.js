@@ -1,5 +1,5 @@
 const { check } = require("express-validator");
-
+const validateEmail = require("./validateEmail");
 const singupValidator = [
   check("name").not().isEmpty().withMessage("name is required"),
   check("email")
@@ -67,7 +67,29 @@ const changePasswordValidator =[
     .withMessage("password must be at least 8 characters long")
     .notEmpty()
     .withMessage("password is required"),
-]
+];
+
+const updateProfileValidator =[
+  check("email").custom(async(email) => {
+    if (email) {
+      const isValidEmail = validateEmail(email);
+  
+      if (!isValidEmail) {
+        throw new Error("Please enter a valid email address");
+      }
+    }
+  })
+];
+
+// const updateProfileValidator = [
+//   check('name').optional().notEmpty().withMessage('Name cannot be empty'),
+//   check('email').optional().custom((value) => {
+//     if (value && !validateEmail(value)) {
+//       throw new Error('Please enter a valid email address');
+//     }
+//     return true;
+//   })
+// ];
 
 module.exports = {
   singupValidator,
@@ -76,4 +98,5 @@ module.exports = {
   verifyUserValidator,
   recoverPasswordValidator,
   changePasswordValidator,
+  updateProfileValidator,
 };

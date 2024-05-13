@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-const { forgotPasswordCode } = require("../controller/auth");
 
 //create user Schema
-
 const userSchema = mongoose.Schema(
   {
     name: {

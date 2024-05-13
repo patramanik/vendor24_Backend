@@ -109,8 +109,8 @@ const verifiCode = async (req, res, next) => {
 };
 
 // the below code is used to verify User:
-const verifyUser = async(req, res, next) => {
-  try{
+const verifyUser = async (req, res, next) => {
+  try {
     const { email, code } = req.body;
 
     const user = await User.findOne({ email: email });
@@ -133,15 +133,13 @@ const verifyUser = async(req, res, next) => {
       status: true,
       message: "User verified successfully",
     });
-
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 };
 
-
-const forgotPasswordCode = async(req, res, next) => {
-  try{
+const forgotPasswordCode = async (req, res, next) => {
+  try {
     const { email } = req.body;
 
     const user = await User.findOne({ email: email });
@@ -167,14 +165,13 @@ const forgotPasswordCode = async(req, res, next) => {
       status: true,
       message: "User forgot password code sent successfully",
     });
-
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 };
 
-const recoverPassword = async(req, res, next) => {
-  try{
+const recoverPassword = async (req, res, next) => {
+  try {
     const { email, code, password } = req.body;
 
     const user = await User.findOne({ email: email });
@@ -184,13 +181,13 @@ const recoverPassword = async(req, res, next) => {
       throw new Error(`Invalid username`);
     }
 
-    if (user.forgotPasswordCode!== code) {
+    if (user.forgotPasswordCode !== code) {
       res.code = 400;
       throw new Error(`Invalid confirmation code`);
     }
 
     const hashedPassword = await hashPassword(password);
-    user.password =  hashedPassword;
+    user.password = hashedPassword;
     user.forgotPasswordCode = null;
     await user.save();
 
@@ -199,40 +196,77 @@ const recoverPassword = async(req, res, next) => {
       status: true,
       message: "User password recovered successfully",
     });
-
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 };
 
-const changePassword = async(req, res, next) => {
+const changePassword = async (req, res, next) => {
   try {
     const { oldPassword, newPassword } = req.body;
-    const {_id} = req.user;
+    const { _id } = req.user;
     const user = await User.findById(_id);
     if (!user) {
       res.code = 404;
       throw new Error(`Invalid username`);
     }
-    const match = await comparePassword(oldPassword,user.password);
-    if(!match){
+    const match = await comparePassword(oldPassword, user.password);
+    if (!match) {
       res.code = 400;
       throw new Error(`Old password does not match`);
     }
-    if(oldPassword === newPassword){
+    if (oldPassword === newPassword) {
       res.code = 400;
       throw new Error(`New password cannot be same as old password`);
     }
     const hashedPassword = await hashPassword(newPassword);
-    user.password =  hashedPassword;  
+    user.password = hashedPassword;
     await user.save();
     res.status(200).json({
       code: 200,
       status: true,
       message: "User password changed successfully",
     });
-  }catch(err){
+  } catch (err) {
     next(err);
+  }
+};
+
+const updateProfile = async (req, res, next) => {
+  try {
+    const { _id } = req.user;
+    const user = await User.findById(_id).select("-password -varificationCode -forgotPasswordCode");
+    if (!user) {
+      res.code = 404;
+      throw new Error(`Invalid username`);
+    }
+
+    const { name, email } = req.body;
+
+    if(email){
+      const isEmailExist = await User.findOne({ email: email });
+      if (isEmailExist && isEmailExist.email === email && String(user._id) !== String(isEmailExist._id)) {
+        res.code = 400;
+        throw new Error(`User ${email} already exists`);
+      }
+    }
+    
+    user.name = name ? name : user.name;
+    user.email = email ? email : user.email;
+
+    if(email) {
+      user.isVarified = false;
+    }
+
+    await user.save();
+    res.status(200).json({
+      code: 200,
+      status: true,
+      message: "User profile updated successfully",
+      data: {user},
+    });
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -245,4 +279,5 @@ module.exports = {
   forgotPasswordCode,
   recoverPassword,
   changePassword,
+  updateProfile,
 };
