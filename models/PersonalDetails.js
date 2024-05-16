@@ -7,7 +7,12 @@ const personalDetailsSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
       unique: true,
+      trim: true,
     },
     age: {
       type: Number,
@@ -28,12 +33,22 @@ const personalDetailsSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    country: {
+    pincode: {
       type: String,
       required: true,
       trim: true,
     },
-    phoneNumber: {
+    district:{
+      type: String,
+      required: true,
+      trim: true,
+    },
+    state: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    country: {
       type: String,
       required: true,
       trim: true,

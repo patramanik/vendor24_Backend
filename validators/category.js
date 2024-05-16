@@ -3,13 +3,9 @@ const { default: mongoose } = require("mongoose");
 
 const addCategoryValidator = [
   check("title").not().isEmpty().withMessage("Title is required"),
-  // check("desc").not().isEmpty().withMessage("description is required"),
 ];
 
-// const updateCategoryValidator =[
-//     check("title").not().isEmpty().withMessage("Title is required"),
-//     // check("desc").not().isEmpty().withMessage("description is required"),
-// ];
+
 
 const idvalidator = [
   param("id").custom(async (id) => {
