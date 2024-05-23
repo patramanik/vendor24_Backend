@@ -16,4 +16,16 @@ router.post(
   personalDetailsController.addPersonalDetails
 );
 
+router.put(
+  "/:id",
+  isAuth,
+  idvalidator,
+  validators,
+  personalDetailsController.updatePersonalDetails
+);
+
+router.delete("/:id", isAuth, idvalidator, personalDetailsController.deletePersonalDetails);
+
+router.get("/:id", isAuth, idvalidator, personalDetailsController.getPersonalDetails);
+
 module.exports = router;
