@@ -18,6 +18,9 @@ const userSchema = mongoose.Schema(
       required: true,
       minlength: 6,
     },
+    image:{
+      type: String,
+    },
     role: {
       type: Number,
       default: 4,
@@ -37,6 +40,6 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const User=mongoose.model('user',userSchema);
+const User=mongoose.model('User',userSchema);
 
 module.exports= User;
