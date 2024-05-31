@@ -6,6 +6,7 @@ dotenv.config();
 const {connectMongodb}= require("./db/connecttion");
 const {errorHandler} = require("./middlewares")
 const notFound = require("./controller/notfound");
+const cors = require("cors");
 
 //import routes
 const {authRoute,categoryRoute,personalDetails,fileRoute}=require("./routes");
@@ -15,11 +16,13 @@ const {authRoute,categoryRoute,personalDetails,fileRoute}=require("./routes");
 //init app
 const app = express();
 
+
 // connect database
 connectMongodb();
 
 //body parser middleware
 app.use(express.json({limit:"500mb"}));
+app.use(cors());
 app.use(bodyParser.urlencoded({limit:"500mb",extended:false}));
 app.use(morgan("dev"));
 

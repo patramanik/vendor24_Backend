@@ -1,11 +1,6 @@
 const { check, param } = require("express-validator");
 const { default: mongoose } = require("mongoose");
 
-const addCategoryValidator = [
-  check("title").not().isEmpty().withMessage("Title is required"),
-];
-
-
 
 const idvalidator = [
   param("id").custom(async (id) => {
@@ -16,6 +11,5 @@ const idvalidator = [
 ];
 
 module.exports = {
-  addCategoryValidator,
   idvalidator,
 };

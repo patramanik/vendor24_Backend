@@ -1,6 +1,6 @@
 const { User } = require("../models");
 const { uploadOnCloudinary } = require("../utils/cloudnary");
-const fs = require("fs");
+
 
 const uploadFile = async (req, res, next) => {
   try {
