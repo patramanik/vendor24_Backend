@@ -3,9 +3,9 @@ const {senderEmail,emailPassword} = require("../config/kyes");
 
 const sendEmail = async({emailTo, subject,code,content}) =>{
     const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: process.env.SMPT_HOST,
+        port: process.env.SMPT_PORT,
+        service: process.env.SMPT_SERVICE,// true for 465, false for other ports
         auth: {
             user: senderEmail, // generated ethereal user
             pass:  emailPassword, // generated ethereal password
@@ -13,6 +13,7 @@ const sendEmail = async({emailTo, subject,code,content}) =>{
     });
 
     const message = {
+        from: process.env.SMPT_MAIL,
         to: emailTo,
         subject,
         html: `
@@ -26,3 +27,4 @@ const sendEmail = async({emailTo, subject,code,content}) =>{
 }
 
 module.exports = sendEmail;
+
