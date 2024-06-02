@@ -6,15 +6,67 @@ const generateCode = require("../utils/generateCode");
 const sendEmail = require("../utils/sendEmail");
 
 // the below code is used to signup the user:
+// const signup = async (req, res, next) => {
+//   try {
+//     const { name, email, password, role } = req.body;
+
+//     if (!name){
+//       res.code = 400;
+//       throw new Error(`Name is required`);
+//     }
+
+//     if (!email){
+//       res.code = 400;
+//       throw new Error(`Email is required`);
+//     }
+//     if (!password){
+//       res.code = 400;
+//       throw new Error(`Password is required`);
+//     }
+
+//     const isEmailExist = await User.findOne({ email: email });
+
+//     if (isEmailExist) {
+//       res.code = 400;
+//       throw new Error(`User ${name} already exists`);
+//     }
+
+//     const hashedPassword = await hashPassword(password);
+//     const newUser = new User({ name, email, password: hashedPassword, role });
+//     await newUser.save();
+//     res.status(201).json({
+//       code: 201,
+//       status: true,
+//       message: "User registered successfully",
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 const signup = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
 
+    if (!name) {
+      res.status(400).json({ code: 400, status: false, message: 'Name is required' });
+      return;
+    }
+
+    if (!email) {
+      res.status(400).json({ code: 400, status: false, message: 'Email is required' });
+      return;
+    }
+    
+    if (!password) {
+      res.status(400).json({ code: 400, status: false, message: 'Password is required' });
+      return;
+    }
+
     const isEmailExist = await User.findOne({ email: email });
 
     if (isEmailExist) {
-      res.code = 400;
-      throw new Error(`User ${name} already exists`);
+      res.status(400).json({ code: 400, status: false, message: `User ${name} already exists` });
+      return;
     }
 
     const hashedPassword = await hashPassword(password);
@@ -23,12 +75,13 @@ const signup = async (req, res, next) => {
     res.status(201).json({
       code: 201,
       status: true,
-      message: "User registered successfully",
+      message: 'User registered successfully',
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 // the below code is used to signin the user:
 const signin = async (req, res, next) => {
