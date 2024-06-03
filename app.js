@@ -9,7 +9,7 @@ const notFound = require("./controller/notfound");
 const cors = require("cors");
 
 //import routes
-const {authRoute,categoryRoute,personalDetails,fileRoute}=require("./routes");
+const {authRoute,categoryRoute,personalDetails,fileRoute,homeRoute}=require("./routes");
 
 
 
