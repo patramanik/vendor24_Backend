@@ -14,7 +14,7 @@ const validate = require("../validators/validate");
 const isAuth = require("../middlewares/isAuth");
 
 //router
-router.post("/signup",validate, authController.signup);
+router.post("/signup", validate, authController.signup);
 
 router.post("/signin", signinValidator, validate, authController.signin);
 

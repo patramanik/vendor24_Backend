@@ -11,6 +11,5 @@ server.get("/", (req, res) => [
   res.send("Server is running")
 ])
 server.listen(port, () => {
-    
     console.log(`Server is running on http://localhost:${port}`);
   });
