@@ -7,9 +7,6 @@ const {port}=require("./config/kyes");
 const server = http.createServer(app);
 
 // Start the server
-app.get("/", (req, res) => [
-  res.send("Server is running")
-])
 server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });

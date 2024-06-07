@@ -9,7 +9,7 @@ const notFound = require("./controller/notfound");
 const cors = require("cors");
 
 //import routes
-const {authRoute,categoryRoute,personalDetails,fileRoute}=require("./routes");
+const {authRoute,categoryRoute,personalDetails,fileRoute,homeRoute}=require("./routes");
 
 
 
@@ -29,6 +29,7 @@ app.use(bodyParser.urlencoded({limit:"500mb",extended:false}));
 app.use(morgan("dev"));
 
 //router section
+app.use("/",homeRoute);
 app.use("/api/v1/auth",authRoute);
 app.use("/api/v1/category",categoryRoute);
 app.use("/api/v1/personal-details",personalDetails);
