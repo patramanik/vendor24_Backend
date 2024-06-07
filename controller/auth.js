@@ -76,6 +76,7 @@ const signup = async (req, res, next) => {
       code: 201,
       status: true,
       message: 'User registered successfully',
+      data: { User: newUser },
     });
   } catch (error) {
     next(error);
